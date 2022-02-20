@@ -12,7 +12,7 @@ namespace EncriptionTask
         private string _text;
         private string _key;
         private StringBuilder _proccesedText = new StringBuilder();
-        private CancellationTokenSource cts = new CancellationTokenSource();
+        private CancellationTokenSource cts;
 
         public Form1()
         {
@@ -66,6 +66,7 @@ namespace EncriptionTask
         {
             try
             {
+                if (String.IsNullOrEmpty(TextBoxPassword.Text)) throw new Exception("Enter Password");
                 _key = TextBoxPassword.Text;
             }
             catch (Exception ex)
@@ -104,6 +105,7 @@ namespace EncriptionTask
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
+            cts = new CancellationTokenSource();
             ThreadPool.QueueUserWorkItem(_ =>
             {
                 EncDec(cts.Token);
